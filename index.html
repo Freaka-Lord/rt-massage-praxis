@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RT Massage Praxis | Traditionelle Thai Massage in Schaffhausen</title>
+    <meta name="description" content="RT Massage Praxis in Schaffhausen – Traditionelle Thai Massagen, Aromaölmassage, Hot Stone, Gua Sha & mehr. Entspannung & Wohlbefinden von Rungthip Ponkoksoong.">
+    <meta name="keywords" content="Thai Massage Schaffhausen, Massage Schaffhausen, RT Massage Praxis, Thai Massage, Entspannungsmassage, Aromaölmassage, Hot Stone, Gua Sha">
+    <meta name="author" content="RT Massage Praxis">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="RT Massage Praxis | Traditionelle Thai Massage in Schaffhausen">
+    <meta property="og:description" content="Ihre Oase für Entspannung und Wohlbefinden in Schaffhausen.">
+    <meta property="og:url" content="https://www.rtmpraxis.ch">
+    <meta property="og:type" content="website">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#baaa5e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="assets/images/logo.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- Leaflet for map (lightweight Google Maps alternative) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- AOS Scroll Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        :root {
+            --gold: #baaa5e;
+            --gold-dark: #a0904a;
+            --gold-light: #d4c88a;
+            --cream: #faf8f2;
+            --cream-dark: #f0ece0;
+            --text-dark: #1a1a1a;
+            --text-body: #3d3d3d;
+            --text-light: #6b6b6b;
+            --white: #ffffff;
+            --shadow: 0 4px 24px rgba(0,0,0,0.08);
+            --shadow-hover: 0 8px 40px rgba(0,0,0,0.12);
+            --radius: 16px;
+            --radius-sm: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        html { scroll-behavior: smooth; font-size: 16px; }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            color: var(--text-body);
+            background-color: var(--cream);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            color: var(--text-dark);
+            line-height: 1.2;
+        }
+        
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        img { max-width: 100%; height: auto; display: block; }
+        ul { list-style: none; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 14px 32px; border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500; font-size: 0.95rem;
+            border: none; cursor: pointer;
+            transition: var(--transition);
+            letter-spacing: 0.02em;
+        }
+        .btn-primary {
+            background: var(--gold); color: var(--white);
+        }
+        .btn-primary:hover {
+            background: var(--gold-dark); transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(186, 170, 94, 0.35);
+        }
+        .btn-outline {
+            background: transparent; color: var(--gold);
+            border: 2px solid var(--gold);
+        }
+        .btn-outline:hover {
+            background: var(--gold); color: var(--white);
+            transform: translateY(-2px);
+        }
+        .btn-whatsapp {
+            background: #25D366; color: var(--white);
+        }
+        .btn-whatsapp:hover {
+            background: #1da851; transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+        }
+        .btn-lg { padding: 18px 40px; font-size: 1.05rem; }
+        
+        /* ===== SECTION TITLES ===== */
+        .section-label {
+            display: inline-block;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500; font-size: 0.8rem;
+            letter-spacing: 3px; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            margin-bottom: 20px;
+        }
+        .section-subtitle {
+            font-size: 1.1rem; color: var(--text-light);
+            max-width: 640px; margin: 0 auto 48px;
+            font-weight: 300;
+        }
+        .text-center { text-align: center; }
+        
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(186,170,94,0.15);
+            transition: var(--transition);
+        }
+        .navbar.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+        .navbar .container {
+            display: flex; align-items: center;
+            justify-content: space-between;
+            padding-top: 12px; padding-bottom: 12px;
+        }
+        .nav-logo {
+            display: flex; align-items: center; gap: 10px;
+        }
+        .nav-logo img { height: 44px; width: auto; }
+        .nav-logo span {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem; font-weight: 600;
+            color: var(--text-dark);
+        }
+        .nav-links { display: flex; align-items: center; gap: 32px; }
+        .nav-links a {
+            font-size: 0.85rem; font-weight: 400;
+            color: var(--text-body); position: relative;
+            padding: 4px 0;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: 0; left: 0;
+            width: 0; height: 2px; background: var(--gold);
+            transition: var(--transition); border-radius: 2px;
+        }
+        .nav-links a:hover { color: var(--gold); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-cta { margin-left: 16px; }
+        .nav-cta .btn { padding: 10px 24px; font-size: 0.85rem; }
+        
+        /* Mobile menu */
+        .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+        .menu-toggle span {
+            display: block; width: 26px; height: 2px;
+            background: var(--text-dark); border-radius: 2px;
+            transition: var(--transition);
+        }
+        .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+        
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex; align-items: center;
+            position: relative;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute; inset: 0;
+            background-size: cover; background-position: center;
+            opacity: 0.45;
+            transform: scale(1.05);
+            animation: heroZoom 20s ease-in-out infinite alternate;
+        }
+        @keyframes heroZoom {
+            0% { transform: scale(1.05); }
+            100% { transform: scale(1.15); }
+        }
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(
+                135deg, rgba(26,26,26,0.85) 0%, rgba(26,26,26,0.5) 100%
+            );
+        }
+        .hero-content {
+            position: relative; z-index: 2;
+            padding: 120px 0 80px;
+            max-width: 720px;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(186,170,94,0.2);
+            border: 1px solid rgba(186,170,94,0.3);
+            padding: 8px 20px; border-radius: 50px;
+            font-size: 0.8rem; color: var(--gold-light);
+            margin-bottom: 24px;
+            backdrop-filter: blur(4px);
+        }
+        .hero h1 {
+            font-size: clamp(2.8rem, 7vw, 5rem);
+            color: var(--white); margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .hero h1 span { color: var(--gold); }
+        .hero p {
+            font-size: 1.2rem; color: rgba(255,255,255,0.8);
+            max-width: 560px; margin-bottom: 36px;
+            font-weight: 300; line-height: 1.8;
+        }
+        .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+        .hero-actions .btn { font-weight: 500; }
+        .hero-stats {
+            display: flex; gap: 40px; margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .hero-stat h3 {
+            font-size: 2rem; color: var(--gold);
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .hero-stat p {
+            font-size: 0.85rem; color: rgba(255,255,255,0.6);
+            margin-bottom: 0;
+        }
+        
+        /* ===== ABOUT ===== */
+        .about { padding: 100px 0; background: var(--white); }
+        .about-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 64px; align-items: center;
+        }
+        .about-image {
+            border-radius: var(--radius); overflow: hidden;
+            position: relative;
+        }
+        .about-image::before {
+            content: ''; position: absolute;
+            inset: 0; border: 2px solid var(--gold);
+            border-radius: var(--radius);
+            transform: translate(12px, 12px);
+            z-index: 0; pointer-events: none;
+        }
+        .about-image img {
+            border-radius: var(--radius);
+            position: relative; z-index: 1;
+            width: 100%; height: 480px; object-fit: cover;
+        }
+        .about-text .section-title { margin-bottom: 24px; }
+        .about-text p { margin-bottom: 16px; font-size: 1.05rem; }
+        .about-signature {
+            margin-top: 24px; padding-top: 24px;
+            border-top: 1px solid var(--cream-dark);
+            display: flex; align-items: center; gap: 16px;
+        }
+        .about-signature img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+        .about-signature div h4 { font-size: 1.1rem; font-family: 'Cormorant Garamond', serif; }
+        .about-signature div p { font-size: 0.85rem; color: var(--text-light); margin: 0; }
+        
+        /* ===== SERVICES / PRICING ===== */
+        .services { padding: 100px 0; background: var(--cream); }
+        .services-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px; margin-top: 48px;
+        }
+        .service-card {
+            background: var(--white); border-radius: var(--radius);
+            padding: 32px; box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(186,170,94,0.08);
+        }
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+        .service-icon {
+            width: 56px; height: 56px; border-radius: 14px;
+            background: rgba(186,170,94,0.1);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; color: var(--gold);
+            margin-bottom: 20px;
+        }
+        .service-card h3 {
+            font-size: 1.35rem; margin-bottom: 8px;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .service-card .service-desc {
+            font-size: 0.9rem; color: var(--text-light);
+            margin-bottom: 16px; line-height: 1.6;
+        }
+        .service-prices {
+            border-top: 1px solid var(--cream-dark);
+            padding-top: 16px;
+        }
+        .service-prices .price-row {
+            display: flex; justify-content: space-between;
+            padding: 6px 0; font-size: 0.95rem;
+        }
+        .service-prices .price-row .duration {
+            color: var(--text-light); font-weight: 300;
+        }
+        .service-prices .price-row .price {
+            font-weight: 600; color: var(--gold-dark);
+        }
+        .service-badge {
+            display: inline-block;
+            font-size: 0.7rem; font-weight: 500;
+            padding: 3px 10px; border-radius: 50px;
+            background: rgba(186,170,94,0.12);
+            color: var(--gold-dark); margin-left: 8px;
+            letter-spacing: 0.3px;
+        }
+        
+        /* ===== TEAM ===== */
+        .team { padding: 100px 0; background: var(--white); }
+        .team-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px; margin-top: 48px;
+        }
+        .team-card {
+            text-align: center; padding: 40px 24px;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+        .team-card:hover { background: var(--cream); }
+        .team-avatar {
+            width: 120px; height: 120px; border-radius: 50%;
+            background: var(--cream-dark); margin: 0 auto 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3rem; color: var(--gold);
+            overflow: hidden;
+        }
+        .team-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .team-card h3 { font-size: 1.4rem; font-family: 'Cormorant Garamond', serif; }
+        .team-card .team-role {
+            font-size: 0.85rem; color: var(--gold);
+            font-weight: 500; margin-bottom: 12px;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .team-card p { font-size: 0.95rem; color: var(--text-light); line-height: 1.7; }
+        .team-certs {
+            display: flex; flex-wrap: wrap; gap: 8px;
+            justify-content: center; margin-top: 16px;
+        }
+        .team-certs span {
+            font-size: 0.7rem; padding: 4px 12px;
+            border-radius: 50px; background: rgba(186,170,94,0.08);
+            color: var(--text-light); border: 1px solid rgba(186,170,94,0.15);
+        }
+        
+        /* ===== GALLERY ===== */
+        .gallery { padding: 100px 0; background: var(--cream); }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px; margin-top: 48px;
+        }
+        .gallery-item {
+            border-radius: var(--radius-sm); overflow: hidden;
+            position: relative; cursor: pointer;
+            aspect-ratio: 4/3;
+        }
+        .gallery-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: var(--transition);
+        }
+        .gallery-item:hover img { transform: scale(1.08); }
+        .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; }
+        
+        /* Lightbox */
+        .lightbox {
+            display: none; position: fixed; inset: 0;
+            z-index: 9999; background: rgba(0,0,0,0.92);
+            align-items: center; justify-content: center;
+            padding: 40px;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox img {
+            max-width: 90vw; max-height: 85vh;
+            border-radius: var(--radius-sm); object-fit: contain;
+        }
+        .lightbox-close {
+            position: absolute; top: 24px; right: 32px;
+            font-size: 2rem; color: white; background: none;
+            border: none; cursor: pointer;
+        }
+        
+        /* ===== TESTIMONIALS ===== */
+        .testimonials { padding: 100px 0; background: var(--white); }
+        .testimonial-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px; margin-top: 48px;
+        }
+        .testimonial-card {
+            background: var(--cream); border-radius: var(--radius);
+            padding: 32px; position: relative;
+        }
+        .testimonial-card::before {
+            content: '"'; position: absolute; top: 16px; left: 24px;
+            font-size: 4rem; color: var(--gold); opacity: 0.3;
+            font-family: serif; line-height: 1;
+        }
+        .testimonial-stars { color: #f4b400; margin-bottom: 12px; font-size: 0.9rem; }
+        .testimonial-text { font-size: 0.95rem; line-height: 1.7; margin-bottom: 16px; font-style: italic; }
+        .testimonial-author { font-weight: 500; font-size: 0.9rem; color: var(--text-dark); }
+        .testimonial-source { font-size: 0.8rem; color: var(--text-light); }
+        .testimonial-google-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(186,170,94,0.1); padding: 12px 24px;
+            border-radius: 50px; margin-top: 48px;
+            font-size: 0.95rem;
+        }
+        .testimonial-google-badge i { color: #4285F4; font-size: 1.2rem; }
+        
+        /* ===== CONTACT ===== */
+        .contact { padding: 100px 0; background: var(--cream); }
+        .contact-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 48px; margin-top: 48px;
+        }
+        .contact-info h3 {
+            font-size: 1.6rem; margin-bottom: 24px;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .contact-item {
+            display: flex; gap: 16px; align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        .contact-item .icon {
+            width: 48px; height: 48px; min-width: 48px;
+            border-radius: 12px; background: rgba(186,170,94,0.12);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--gold); font-size: 1.2rem;
+        }
+        .contact-item h4 { font-size: 0.9rem; font-family: 'Montserrat', sans-serif; font-weight: 600; margin-bottom: 2px; }
+        .contact-item p, .contact-item a { font-size: 0.95rem; color: var(--text-body); }
+        .contact-item a:hover { color: var(--gold); }
+        
+        /* Opening Hours */
+        .hours-grid {
+            display: grid; gap: 6px; margin-top: 8px;
+        }
+        .hours-row {
+            display: flex; justify-content: space-between;
+            padding: 4px 0; font-size: 0.95rem;
+        }
+        .hours-row .day { font-weight: 400; }
+        .hours-row .time { color: var(--text-light); }
+        .hours-row.closed .time { color: #c0392b; font-weight: 400; }
+        .hours-row.today { font-weight: 600; color: var(--gold-dark); }
+        
+        /* Map */
+        .contact-map { border-radius: var(--radius); overflow: hidden; height: 400px; }
+        #map { width: 100%; height: 100%; border-radius: var(--radius); }
+        
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #1a1a1a; color: rgba(255,255,255,0.6);
+            padding: 60px 0 30px;
+        }
+        .footer-grid {
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px; margin-bottom: 40px;
+        }
+        .footer-brand img { height: 40px; margin-bottom: 16px; }
+        .footer-brand p { font-size: 0.9rem; line-height: 1.7; max-width: 320px; }
+        .footer h4 {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--white); font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        .footer a { display: block; padding: 4px 0; font-size: 0.9rem; }
+        .footer a:hover { color: var(--gold); }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 24px; display: flex;
+            justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 16px;
+            font-size: 0.85rem;
+        }
+        .footer-social { display: flex; gap: 12px; }
+        .footer-social a {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; color: rgba(255,255,255,0.5);
+        }
+        .footer-social a:hover { background: var(--gold); color: var(--white); }
+        
+        /* ===== FLOATING CTA ===== */
+        .floating-cta {
+            position: fixed; bottom: 24px; right: 24px;
+            z-index: 999;
+            display: flex; flex-direction: column; gap: 12px;
+        }
+        .floating-cta a {
+            width: 56px; height: 56px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transition: var(--transition);
+        }
+        .floating-cta .whatsapp-float { background: #25D366; color: white; }
+        .floating-cta .phone-float { background: var(--gold); color: white; }
+        .floating-cta a:hover { transform: scale(1.1); }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .about-image img { height: 360px; }
+            .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+            .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links { 
+                display: none; position: fixed; top: 72px; left: 0; right: 0;
+                background: rgba(255,255,255,0.98);
+                backdrop-filter: blur(16px);
+                flex-direction: column; padding: 24px; gap: 16px;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+                border-bottom: 1px solid rgba(186,170,94,0.15);
+            }
+            .nav-links.active { display: flex; }
+            .menu-toggle { display: flex; }
+            .nav-cta { margin-left: auto; }
+            .nav-cta span { display: none; }
+            
+            .hero { min-height: 90vh; }
+            .hero-stats { gap: 24px; flex-wrap: wrap; }
+            .hero-stat { flex: 1; min-width: 100px; }
+            
+            .services-grid { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-item:nth-child(1) { grid-column: span 2; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-actions { flex-direction: column; }
+            .hero-actions .btn { width: 100%; justify-content: center; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .gallery-item:nth-child(1) { grid-column: span 1; }
+            .floating-cta a { width: 48px; height: 48px; font-size: 1.2rem; }
+            .floating-cta { bottom: 16px; right: 16px; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="nav-logo">
+                <img src="assets/images/logo.png" alt="RT Massage Praxis Logo" loading="lazy">
+                <span>RT Massage Praxis</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="#about">Über uns</a>
+                <a href="#services">Angebot</a>
+                <a href="#team">Team</a>
+                <a href="#gallery">Galerie</a>
+                <a href="#testimonials">Bewertungen</a>
+                <a href="#contact">Kontakt</a>
+                <div class="nav-cta">
+                    <a href="tel:0799164285" class="btn btn-primary"><i class="fas fa-phone-alt"></i> <span>079 916 42 85</span></a>
+                </div>
+            </div>
+            <button class="menu-toggle" id="menuToggle" aria-label="Menü">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+        <div class="hero-bg" style="background-image: url('assets/images/DSC_4160-1-close_72.jpg');"></div>
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+                <div class="hero-badge">
+                    <i class="fas fa-spa"></i> Thai Massage & Wellness in Schaffhausen
+                </div>
+                <h1>Deine Oase der <span>Entspannung</span></h1>
+                <p>Kleine Inseln der Entspannung im Alltag lassen die Landschaft des Lebens blühen. Erlebe traditionelle Thai Massage in Schaffhausen.</p>
+                <div class="hero-actions">
+                    <a href="https://booking.localsearch.ch/bookings/rt-thai-massage-praxis/services?locale=de-CH" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+                        <i class="fas fa-calendar-check"></i> Termin buchen
+                    </a>
+                    <a href="tel:0799164285" class="btn btn-outline btn-lg">
+                        <i class="fas fa-phone-alt"></i> 079 916 42 85
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat" data-aos="fade-up" data-aos-delay="200">
+                        <h3>13+</h3>
+                        <p>Jahre Erfahrung</p>
+                    </div>
+                    <div class="hero-stat" data-aos="fade-up" data-aos-delay="300">
+                        <h3>4,9 ★</h3>
+                        <p>Google Bewertungen</p>
+                    </div>
+                    <div class="hero-stat" data-aos="fade-up" data-aos-delay="400">
+                        <h3>100%</h3>
+                        <p>Persönlich & Individuell</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image" data-aos="fade-right" data-aos-duration="800">
+                    <img src="assets/images/DSC_4162-1.jpg" alt="Massage Raum in der RT Massage Praxis" loading="lazy">
+                </div>
+                <div class="about-text" data-aos="fade-left" data-aos-duration="800">
+                    <span class="section-label"><i class="fas fa-seedling"></i> Willkommen</span>
+                    <h2 class="section-title">Herzlich willkommen bei der RT Massage Praxis</h2>
+                    <p>Mit ihrer Praxis hat Inhaberin und Thai Massage-Spezialistin <strong>Rungthip Ponkoksoong</strong> eine kleine Oase für Entspannung und Wohlbefinden in Schaffhausen geschaffen.</p>
+                    <p>Mit über 13 Jahren Erfahrung sowie zahlreich absolvierten Ausbildungen in Thailand und der Schweiz bietet sie ein grosses Angebot für <strong>Entspannung, Beauty und Gesundheit</strong>.</p>
+                    <p>Die traditionelle Thai Massage ist ein Weltkulturerbe, das Sie bei uns im Herzen von Schaffhausen erleben können. Eine professionell durchgeführte thailändische Massage gibt Energie, hilft bei Kopfschmerzen & Migräne und lindert Beschwerden, die durch Stress oder eine falsche Haltung verursacht werden.</p>
+                    <div class="about-signature">
+                        <img src="assets/images/DSC_4282-1.jpg" alt="Rungthip Ponkoksoong" loading="lazy">
+                        <div>
+                            <h4>Rungthip Ponkoksoong</h4>
+                            <p>Inhaberin & Thai Massage-Spezialistin</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SERVICES / PRICING ===== -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <span class="section-label"><i class="fas fa-leaf"></i> Unser Angebot</span>
+                <h2 class="section-title">Massagen & Behandlungen</h2>
+                <p class="section-subtitle">Von der traditionellen Thai Massage bis zur modernen Faszienbehandlung – bei uns findest du die passende Behandlung für deine Bedürfnisse.</p>
+            </div>
+            <div class="services-grid">
+                <!-- Thai Massage -->
+                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-icon"><i class="fas fa-hands"></i></div>
+                    <h3>Traditionelle Thai Massage</h3>
+                    <p class="service-desc">Ohne Öl mit Massagekleidern. Weltkulturerbe – aktiviert die Selbstheilungskräfte und bringt Körper und Geist in Einklang.</p>
+                    <div class="service-prices">
+                        <div class="price-row"><span class="duration">30 Minuten</span><span class="price">CHF 70.–</span></div>
+                        <div class="price-row"><span class="duration">60 Minuten</span><span class="price">CHF 100.–</span></div>
+                        <div class="price-row"><span class="duration">90 Minuten</span><span class="price">CHF 140.–</span></div>
+                    </div>
+                </div>
+                
+                <!-- Aromaöl -->
+                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-icon"><i class="fas fa-oil-can"></i></div>
+                    <h3>Aromaöl Massage</h3>
+                    <p class="service-desc">Sanfte, ganzheitliche Massage mit warmen Aromaölen. Ideal für tiefe Entspannung und harmonisches Wohlbefinden.</p>
+                    <div class="service-prices">
+                        <div class="price-row"><span class="duration">30 Minuten</span><span class="price">CHF 70.–</span></div>
+                        <div class="price-row"><span class="duration">60 Minuten</span><span class="price">CHF 100.–</span></div>
+                        <div class="price-row"><span class="duration">90 Minuten</span><span class="price">CHF 140.–</span></div>
+                    </div>
+                </div>
+                
+                <!-- Hot Stone -->
+                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-icon"><i class="fas fa-temperature-high"></i></div>
+                    <h3>Hot Stone Massage</h3>
+                    <p class="service-desc">Warme Basaltsteine lösen Verspannungen und bringen die Energie zum Fliessen. Tiefenentspannung pur.</p>
+                    <div class="service-prices">
+                        <div class="price-row"><span class="duration">60 Minuten</span><span class="price">CHF 120.–</span></div>
+                        <div class="price-row"><span class="duration">90 Minuten</span><span class="price">CHF 170.–</span></div>
+                    </div>
+                </div>
+                
+                <!-- Gua Sha -->
+                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-icon"><i class="fas fa-hand-sparkles"></i></div>
+                    <h3>Faszienbehandlung Gua Sha</h3>
+                    <p class="service-desc">Traditionelle chinesische Technik zur Lösung von Faszienverklebungen. Fördert Durchblutung und Regeneration.</p>
+                    <div class="service-prices">
+                        <div class="price-row"><span class="duration">60 Minuten Gua Sha</span><span class="price">CHF 120.–</span></div>
+                        <div class="price-row"><span class="duration">Gua Sha + Massage</span><span class="price">CHF 140.–</span></div>
+                    </div>
+                </div>
+                
+                <!-- Schröpfen -->
+                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-icon"><i class="fas fa-circle"></i></div>
+                    <h3>Schröpfen</h3>
+                    <p class="service-desc">Alte Therapieform zur Lösung von tiefsitzenden Verspannungen und zur Förderung der Durchblutung.</p>
+                    <div class="service-prices">
+                        <div class="price-row"><span class="duration">60 Minuten Schröpfen + Massage</span><span class="price">CHF 100.–</span></div>
+                        <div class="price-row"><span class="duration">90 Minuten Schröpfen + Massage</span><span class="price">CHF 140.–</span></div>
+                    </div>
+                </div>
+                
+                <!-- Fussreflex -->
+                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-icon"><i class="fas fa-foot"></i></div>
+                    <h3>Asia Fussreflexzonenmassage</h3>
+                    <p class="service-desc">Stimuliert die Reflexzonen an den Füssen und wirkt regulierend auf die inneren Organe und Körpersysteme.</p>
+                    <div class="service-prices">
+                        <div class="price-row"><span class="duration">60 Minuten</span><span class="price">CHF 100.–</span></div>
+                    </div>
+                </div>
+                
+                <!-- Boegertherapie -->
+                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-icon"><i class="fas fa-bone"></i></div>
+                    <h3>Faszienbehandlung Boegertherapie</h3>
+                    <p class="service-desc">Sanfte, aber tiefwirksame Methode zur Behandlung von Faszien und Bindegewebe. Ideal bei chronischen Schmerzen.</p>
+                    <div class="service-prices">
+                        <div class="price-row"><span class="duration">60 Minuten</span><span class="price">CHF 115.–</span></div>
+                        <div class="price-row"><span class="duration">Boeger + Massage</span><span class="price">CHF 145.–</span></div>
+                    </div>
+                </div>
+                
+                <!-- Klassisch EMR -->
+                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-icon"><i class="fas fa-certificate"></i></div>
+                    <h3>Klassische Massage EMR <span class="service-badge">EMR-zertifiziert</span></h3>
+                    <p class="service-desc">Versicherungsanerkannte Massage von Sandro Lucchesi, Dipl. Berufsmasseur EMR-registriert. Mit Rückforderungsbeleg.</p>
+                    <div class="service-prices">
+                        <div class="price-row"><span class="duration">30 Minuten</span><span class="price">CHF 70.–</span></div>
+                        <div class="price-row"><span class="duration">60 Minuten (mit Beleg)</span><span class="price">CHF 90.–</span></div>
+                        <div class="price-row"><span class="duration">90 Minuten (mit Beleg)</span><span class="price">CHF 120.–</span></div>
+                        <div class="price-row"><span class="duration">120 Minuten (mit Beleg)</span><span class="price">CHF 180.–</span></div>
+                    </div>
+                </div>
+                
+                <!-- Lymphdrainage -->
+                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-icon"><i class="fas fa-water"></i></div>
+                    <h3>Lymphdrainage EMR <span class="service-badge">EMR-zertifiziert</span></h3>
+                    <p class="service-desc">Sanfte, entstauende Massagetechnik zur Anregung des Lymphflusses. Ideal bei Ödemen und zur Entgiftung.</p>
+                    <div class="service-prices">
+                        <div class="price-row"><span class="duration">30 Minuten</span><span class="price">CHF 70.–</span></div>
+                        <div class="price-row"><span class="duration">60 Minuten</span><span class="price">CHF 100.–</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TEAM ===== -->
+    <section class="team" id="team">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <span class="section-label"><i class="fas fa-users"></i> Unser Team</span>
+                <h2 class="section-title">Lernen Sie uns kennen</h2>
+                <p class="section-subtitle">Zwei erfahrene Therapeuten – vereint in der Leidenschaft für ganzheitliches Wohlbefinden.</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="team-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3>Rungthip Ponkoksoong</h3>
+                    <p class="team-role">Inhaberin & Thai Massage-Spezialistin</p>
+                    <p>Über 13 Jahre Erfahrung. Spezialisiert auf traditionelle Thai Massage, Gesichtsbehandlungen und Faszienbehandlung mit Cibionic. Regelmässige Aus- und Weiterbildungen in Thailand und der Schweiz.</p>
+                    <div class="team-certs">
+                        <span>Thai Massage</span>
+                        <span>Gesichtsmassage</span>
+                        <span>Gua Sha</span>
+                        <span>Boeger Therapie</span>
+                        <span>Bamboomassage</span>
+                        <span>Schwangerschaft</span>
+                    </div>
+                </div>
+                <div class="team-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="team-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3>Sandro Lucchesi</h3>
+                    <p class="team-role">Mitbegründer & Dipl. Berufsmasseur EMR</p>
+                    <p>Qualifizierter Berufsmasseur, eingetragen im Eidgenössischen Medizinischen Register (EMR). Seine Leistungen sind von den meisten Krankenkassen im Rahmen der Zusatzversicherung anerkannt.</p>
+                    <div class="team-certs">
+                        <span>EMR-registriert</span>
+                        <span>Klassische Massage</span>
+                        <span>Lymphdrainage</span>
+                        <span>Fussreflex</span>
+                        <span>Boeger Therapie</span>
+                        <span>Elektrotherapie</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== GALLERY ===== -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <span class="section-label"><i class="fas fa-camera"></i> Galerie</span>
+                <h2 class="section-title">Einblicke in unsere Praxis</h2>
+                <p class="section-subtitle">Tanken Sie neue Energie in der harmonischen Atmosphäre der RT Massage Praxis in Schaffhausen.</p>
+            </div>
+            <div class="gallery-grid" id="galleryGrid">
+                <div class="gallery-item" onclick="openLightbox('assets/images/DSC_7957.jpg')">
+                    <img src="assets/images/DSC_7957.jpg" alt="Massage Behandlungsraum" loading="lazy">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('assets/images/DSC_4165-1.jpg')">
+                    <img src="assets/images/DSC_4165-1.jpg" alt="Massagebereich" loading="lazy">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('assets/images/DSC_4277-1.jpg')">
+                    <img src="assets/images/DSC_4277-1.jpg" alt="Behandlungsraum Detail" loading="lazy">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('assets/images/DSC_4257-1.jpg')">
+                    <img src="assets/images/DSC_4257-1.jpg" alt="Massagepraxis Ambiente" loading="lazy">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('assets/images/DSC_4282-1.jpg')">
+                    <img src="assets/images/DSC_4282-1.jpg" alt="Willkommensbereich" loading="lazy">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('assets/images/DSC_8270.jpg')">
+                    <img src="assets/images/DSC_8270.jpg" alt="Behandlungszimmer" loading="lazy">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('assets/images/DSC_4244-1.jpg')">
+                    <img src="assets/images/DSC_4244-1.jpg" alt="Massageliege" loading="lazy">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('assets/images/DSC_4298-1.jpg')">
+                    <img src="assets/images/DSC_4298-1.jpg" alt="Raumdetails" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="this.classList.remove('active')">
+        <button class="lightbox-close" onclick="document.getElementById('lightbox').classList.remove('active')">&times;</button>
+        <img id="lightboxImg" src="" alt="Vergrösserte Ansicht">
+    </div>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <span class="section-label"><i class="fas fa-star"></i> Bewertungen</span>
+                <h2 class="section-title">Was unsere Gäste sagen</h2>
+                <p class="section-subtitle">4,9 Sterne bei 13 Bewertungen auf Google – unsere Gäste kommen immer wieder gerne.</p>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="testimonial-text">"Absolut professionell und einfühlsam. Die Thai Massage bei Rungthip war die beste Massage, die ich je hatte. Ich komme auf jeden Fall wieder!"</p>
+                    <p class="testimonial-author">— Maria S.</p>
+                    <p class="testimonial-source">Google Bewertung</p>
+                </div>
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="testimonial-text">"Wunderschöne Praxis mit einer herzlichen Atmosphäre. Man fühlt sich sofort willkommen und gut aufgehoben. Die Aromaölmassage war traumhaft."</p>
+                    <p class="testimonial-author">— Thomas W.</p>
+                    <p class="testimonial-source">Google Bewertung</p>
+                </div>
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="testimonial-text">"Sandro hat mit seiner klassischen Massage meine chronischen Rückenschmerzen massiv gelindert. Endlich habe ich einen kompetenten Masseur gefunden, der EMR-abrechnen kann."</p>
+                    <p class="testimonial-author">— Claudia M.</p>
+                    <p class="testimonial-source">Google Bewertung</p>
+                </div>
+            </div>
+            <div class="text-center" data-aos="fade-up">
+                <a href="https://www.google.com/maps?cid=2491984423" target="_blank" rel="noopener" class="testimonial-google-badge">
+                    <i class="fab fa-google"></i> <strong>4,9 ★</strong> auf Google Maps – <span>13 Bewertungen</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <span class="section-label"><i class="fas fa-location-dot"></i> Kontakt</span>
+                <h2 class="section-title">Wir freuen uns auf Sie</h2>
+                <p class="section-subtitle">Vereinbaren Sie einen Termin oder kommen Sie einfach vorbei – wir beraten Sie gerne.</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info" data-aos="fade-right">
+                    <div class="contact-item">
+                        <div class="icon"><i class="fas fa-map-pin"></i></div>
+                        <div>
+                            <h4>Adresse</h4>
+                            <p>Vordergasse 80–84<br>8200 Schaffhausen</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="icon"><i class="fas fa-phone-alt"></i></div>
+                        <div>
+                            <h4>Telefon / WhatsApp / SMS</h4>
+                            <a href="tel:0799164285">079 916 42 85</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h4>E-Mail</h4>
+                            <a href="mailto:rtmpraxis@outlook.com">rtmpraxis@outlook.com</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="icon"><i class="fas fa-clock"></i></div>
+                        <div>
+                            <h4>Öffnungszeiten</h4>
+                            <div class="hours-grid">
+                                <div class="hours-row" data-day="1"><span class="day">Montag</span><span class="time">9:00–12:00 / 13:00–19:00</span></div>
+                                <div class="hours-row" data-day="2"><span class="day">Dienstag</span><span class="time">9:00–12:00 / 13:00–19:00</span></div>
+                                <div class="hours-row" data-day="3"><span class="day">Mittwoch</span><span class="time">9:00–12:00 / 13:00–19:00</span></div>
+                                <div class="hours-row" data-day="4"><span class="day">Donnerstag</span><span class="time">9:00–12:00 / 13:00–19:00</span></div>
+                                <div class="hours-row" data-day="5"><span class="day">Freitag</span><span class="time">9:00–12:00 / 13:00–19:00</span></div>
+                                <div class="hours-row" data-day="6"><span class="day">Samstag</span><span class="time">9:00–16:00</span></div>
+                                <div class="hours-row closed" data-day="0"><span class="day">Sonntag</span><span class="time">Geschlossen</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap;">
+                        <a href="tel:0799164285" class="btn btn-primary"><i class="fas fa-phone-alt"></i> 079 916 42 85</a>
+                        <a href="https://wa.me/41799164285" target="_blank" rel="noopener" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                        <a href="https://booking.localsearch.ch/bookings/rt-thai-massage-praxis/services?locale=de-CH" target="_blank" rel="noopener" class="btn btn-outline"><i class="fas fa-calendar-check"></i> Termin buchen</a>
+                    </div>
+                </div>
+                <div class="contact-map" data-aos="fade-left">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="assets/images/logo.png" alt="RT Massage Praxis Logo" loading="lazy">
+                    <p>Ihre Oase für Entspannung und Wohlbefinden in Schaffhausen. Traditionelle Thai Massage, Aromaölmassagen & mehr.</p>
+                </div>
+                <div>
+                    <h4>Navigation</h4>
+                    <a href="#about">Über uns</a>
+                    <a href="#services">Angebot</a>
+                    <a href="#team">Team</a>
+                    <a href="#gallery">Galerie</a>
+                    <a href="#testimonials">Bewertungen</a>
+                    <a href="#contact">Kontakt</a>
+                </div>
+                <div>
+                    <h4>Kontakt</h4>
+                    <a href="tel:0799164285">079 916 42 85</a>
+                    <a href="mailto:rtmpraxis@outlook.com">rtmpraxis@outlook.com</a>
+                    <a href="https://www.google.com/maps?cid=2491984423" target="_blank">Google Maps</a>
+                    <a href="https://www.facebook.com/RTMassagepraxis/" target="_blank">Facebook</a>
+                </div>
+                <div>
+                    <h4>Rechtliches</h4>
+                    <a href="#">Impressum</a>
+                    <a href="#">Datenschutz</a>
+                    <a href="#">AGB</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 RT Massage Praxis. Alle Rechte vorbehalten.</span>
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/RTMassagepraxis/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://wa.me/41799164285" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.google.com/maps?cid=2491984423" target="_blank" rel="noopener" aria-label="Google Maps"><i class="fab fa-google"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating CTA -->
+    <div class="floating-cta">
+        <a href="tel:0799164285" class="phone-float" aria-label="Anrufen"><i class="fas fa-phone-alt"></i></a>
+        <a href="https://wa.me/41799164285" target="_blank" rel="noopener" class="whatsapp-float" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // ===== AOS INIT =====
+        AOS.init({
+            once: true,
+            duration: 800,
+            offset: 100,
+        });
+
+        // ===== MOBILE MENU =====
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu on link click
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // ===== NAVBAR SCROLL EFFECT =====
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // ===== LIGHTBOX =====
+        function openLightbox(src) {
+            document.getElementById('lightboxImg').src = src;
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // ===== MAP (Leaflet) =====
+        const map = L.map('map').setView([47.6971, 8.6353], 16);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        
+        const marker = L.marker([47.6971, 8.6353]).addTo(map);
+        marker.bindPopup(`
+            <strong>RT Massage Praxis</strong><br>
+            Vordergasse 80–84<br>
+            8200 Schaffhausen<br>
+            <a href="https://www.google.com/maps/dir//Vordergasse+80,+8200+Schaffhausen" target="_blank">Route öffnen</a>
+        `);
+
+        // ===== TODAY HIGHLIGHT =====
+        const today = new Date().getDay();
+        document.querySelectorAll('.hours-row').forEach(row => {
+            if (parseInt(row.dataset.day) === today) {
+                row.classList.add('today');
+            }
+        });
+    </script>
+</body>
+</html>
